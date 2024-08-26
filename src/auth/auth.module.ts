@@ -6,6 +6,7 @@ import { LocalStrategy } from './local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { config } from 'dotenv';
+import { JwtStrategy } from './jwt.strategy';
 config()
 
 @Module({
@@ -17,6 +18,6 @@ config()
       signOptions: { expiresIn: '1h' },
     })
   ],
-  providers: [AuthService, AuthResolver, LocalStrategy]
+  providers: [AuthService, AuthResolver, LocalStrategy, JwtStrategy]
 })
 export class AuthModule {}
