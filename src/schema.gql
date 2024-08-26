@@ -27,6 +27,10 @@ type LoginResponse {
   user: User!
 }
 
+type RegisterResponse {
+  user: User!
+}
+
 type Query {
   sayHello: String!
   getUsers: [User!]!
@@ -34,9 +38,16 @@ type Query {
 
 type Mutation {
   login(loginUserInput: LoginUserInput!): LoginResponse!
+  register(registerUserInput: RegisterUserInput!): RegisterResponse!
 }
 
 input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input RegisterUserInput {
+  name: String!
   email: String!
   password: String!
 }
