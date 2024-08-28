@@ -33,10 +33,8 @@ export class UserService {
         const out = fs.createWriteStream(uploadPath);
         stream.pipe(out);
     
-        // Assuming you store the relative path in the database
         const imageUrl = `uploads/${filename}`;
     
-        // Update the user's profile with the new image URL
         await this.updateUserProfileImage(userId, imageUrl);
     
         return imageUrl;
@@ -48,5 +46,28 @@ export class UserService {
             { 'profile.image': imageUrl },
             { new: true },
         ).exec();
+    }
+
+    async deleteProfileImage(userId: string): Promise<string> {
+    const user = await this.userModel.findById(userId);
+
+    if (!user || !user.profile.image) {
+        throw new Error('User or profile image not found');
+    }
+
+    const imagePath = join(__dirname, '..', '..', user.profile.image);
+
+    try {
+        fs.unlinkSync(imagePath);
+    } catch (error) {
+        console.error('Error deleting file:', error);
+        throw new Error('Could not delete image file');
+    }
+
+    user.profile.image = '';
+    await user.save();
+
+    return 'Profile image deleted successfully';
+
     }
 }

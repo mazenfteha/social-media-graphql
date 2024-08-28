@@ -29,4 +29,9 @@ export class UserResolver {
     ): Promise<string> {
         return this.userService.uploadProfileImage(userId, file);
     }
+
+    @Mutation(() => String)
+    async deleteProfileImage(@Args('userId') userId: string): Promise<string> {
+        return this.userService.deleteProfileImage(userId);
+    }
 }

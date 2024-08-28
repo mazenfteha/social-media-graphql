@@ -38,6 +38,7 @@ type Query {
 
 type Mutation {
   uploadProfileImage(userId: String!, file: Upload!): String!
+  deleteProfileImage(userId: String!): String!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   register(registerUserInput: RegisterUserInput!): RegisterResponse!
 }
