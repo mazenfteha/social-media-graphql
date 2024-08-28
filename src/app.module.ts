@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 
 @Module({
@@ -28,4 +29,11 @@ import { AuthModule } from './auth/auth.module';
   ],
   providers: [UserModule],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 1 })) // Customize as needed
+      .forRoutes('graphql');
+  }
+}
+
