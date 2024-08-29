@@ -3,10 +3,10 @@ import { Types } from 'mongoose';
 
 @ObjectType()
 export class Profile {
-    @Field()
+    @Field({ nullable: true })
     image: string;
 
-    @Field()
+    @Field({ nullable: true })
     bio: string;
 }
 
@@ -21,7 +21,7 @@ export class User {
     @Field()
     email: string;
 
-    @Field(() => Profile)
+    @Field(() => Profile, { nullable: true })
     profile: Profile;
 
     @Field(() => [ID])

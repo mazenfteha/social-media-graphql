@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDocument } from './user.schema';
 import { Model } from 'mongoose';
@@ -12,9 +12,6 @@ import * as fs from 'fs';
 export class UserService {
     constructor(@InjectModel(UserDocument.name) private userModel: Model<UserDocument>){}
 
-    async findAll() : Promise<User[]> {
-        return this.userModel.find().exec();
-    }
 
     async findByEmail(email: string): Promise<UserDocument | null> {
         return this.userModel.findOne({ email }).exec();
@@ -69,5 +66,34 @@ export class UserService {
 
     return 'Profile image deleted successfully';
 
+    }
+
+    getUserProfile(userId: string): User | PromiseLike<User> {
+        if (!userId) {
+            throw new BadRequestException('User ID is required');
+        }
+        const user = this.userModel.findById(userId).exec();
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        return user;
+    }
+
+    async updateBio(userId: string, bio: string): Promise <User> {
+        if (!userId) {
+            throw new BadRequestException('User ID is required');
+        }
+        const user = await this.userModel.findById(userId)
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        if (!user.profile) {
+            user.profile = {
+                image: '',
+                bio: '',
+            };
+        }
+        user.profile.bio = bio;
+        return user.save();
     }
 }

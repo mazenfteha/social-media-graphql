@@ -4,22 +4,24 @@ import { User } from './user.entity';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
+import { UpdateBioInput } from './dto/update-bio.input';
 
 
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => User)
 export class UserResolver {
     constructor(private userService: UserService) {}
 
-    @Query(() => String)
-    sayHello(): string {
-        return 'Hello, World!';
+    @Query(() => User)
+    async getUserprofile(@Args('userId') userId: string): Promise<User> {
+        return this.userService.getUserProfile(userId);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Query(() => [User])
-    async getUsers(): Promise<User[]> {
-        return this.userService.findAll();
+    @Mutation(() => User)
+    async addOrUpdateBio(@Args('updateBioInput') updateBioInput: UpdateBioInput): Promise<User> {
+        const { userId, bio } = updateBioInput;
+        return this.userService.updateBio(userId, bio);
     }
 
     @Mutation(() => String)

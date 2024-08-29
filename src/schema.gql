@@ -3,15 +3,15 @@
 # ------------------------------------------------------
 
 type Profile {
-  image: String!
-  bio: String!
+  image: String
+  bio: String
 }
 
 type User {
   _id: ID!
   name: String!
   email: String!
-  profile: Profile!
+  profile: Profile
   friends: [ID!]!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -32,15 +32,20 @@ type RegisterResponse {
 }
 
 type Query {
-  sayHello: String!
-  getUsers: [User!]!
+  getUserprofile(userId: String!): User!
 }
 
 type Mutation {
+  addOrUpdateBio(updateBioInput: UpdateBioInput!): User!
   uploadProfileImage(userId: String!, file: Upload!): String!
   deleteProfileImage(userId: String!): String!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   register(registerUserInput: RegisterUserInput!): RegisterResponse!
+}
+
+input UpdateBioInput {
+  userId: ID!
+  bio: String!
 }
 
 """The `Upload` scalar type represents a file upload."""
