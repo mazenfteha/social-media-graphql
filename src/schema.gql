@@ -32,9 +32,22 @@ type RegisterResponse {
   user: User!
 }
 
+type Post {
+  _id: ID!
+  userId: ID!
+  user: User!
+  content: String!
+  media: [String!]
+  likeCount: Float!
+  commentCount: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   getUserprofile(userId: String!): User!
   getFriends(userId: String!): [User!]!
+  post(id: Int!): Post!
 }
 
 type Mutation {
@@ -46,6 +59,9 @@ type Mutation {
   cancelFriendRequest(cancelFriendRequestInput: CancelFriendRequestInput!): String!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   register(registerUserInput: RegisterUserInput!): RegisterResponse!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post!
 }
 
 input UpdateBioInput {
@@ -80,4 +96,15 @@ input RegisterUserInput {
   name: String!
   email: String!
   password: String!
+}
+
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

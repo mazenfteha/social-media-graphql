@@ -7,6 +7,7 @@ import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { graphqlUploadExpress } from 'graphql-upload';
+import { PostModule } from './post/post.module';
 
 
 @Module({
@@ -26,6 +27,7 @@ import { graphqlUploadExpress } from 'graphql-upload';
     }),
     UserModule,
     AuthModule,
+    PostModule,
   ],
   providers: [UserModule],
 })
