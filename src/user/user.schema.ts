@@ -33,7 +33,9 @@ export class UserDocument extends Document {
     @Prop({ type: [Types.ObjectId], ref: 'User' })
     friends: Types.ObjectId[];
 
-    
+    @Prop({ type: [Types.ObjectId], ref: 'User' })
+    friendRequests: Types.ObjectId[]
+
     createdAt: Date;
 
     

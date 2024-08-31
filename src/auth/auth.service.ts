@@ -28,8 +28,6 @@ export class AuthService {
     }
 
     async login(user : User) {
-        const email = user.email
-        console.log(email);
 
         return {
             access_token: this.jwtService.sign({ name : user.name, sub: user._id }),

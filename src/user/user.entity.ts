@@ -27,9 +27,12 @@ export class User {
     @Field(() => [ID])
     friends: Types.ObjectId[];
 
-    @Field()
+    @Field(() => [ID])
+    friendRequests: Types.ObjectId[];
+
+    @Field({ nullable: true })
     createdAt: Date;
 
-    @Field()
+    @Field({ nullable: true })
     updatedAt: Date;
 }

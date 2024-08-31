@@ -5,6 +5,9 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { UpdateBioInput } from './dto/update-bio.input';
+import { SendFriendRequestInput } from './dto/send-friend-request.input';
+import { AcceptFriendRequestInput } from './dto/accept-friend-request.input';
+import { CancelFriendRequestInput } from './dto/cancel-friend-request.inptu';
 
 
 
@@ -35,5 +38,29 @@ export class UserResolver {
     @Mutation(() => String)
     async deleteProfileImage(@Args('userId') userId: string): Promise<string> {
         return this.userService.deleteProfileImage(userId);
+    }
+
+    // Friendships Resolvers
+    @Mutation(() => String)
+    async sendFriendRequest(@Args('sendFriendRequestInput') sendFriendRequestInput: SendFriendRequestInput): Promise<string> {
+        return this.userService.sendFriendRequest(sendFriendRequestInput);
+    }
+
+    //accept friend request
+    @Mutation(() => String)
+    async acceptFriendRequest(@Args('acceptFriendRequestInput') acceptFriendRequestInput: AcceptFriendRequestInput): Promise<string> {
+        return this.userService.acceptFriendRequest(acceptFriendRequestInput);
+    }
+
+    // cancel friend request
+    @Mutation(() => String)
+    async cancelFriendRequest(@Args('cancelFriendRequestInput') cancelFriendRequestInput: CancelFriendRequestInput): Promise<string> {
+        return this.userService.cancelFriendRequest(cancelFriendRequestInput);
+    }
+
+    // get friends
+    @Query(() => [User])
+    async getFriends(@Args('userId') userId: string): Promise<User[]> {
+        return this.userService.getFriends(userId);
     }
 }
