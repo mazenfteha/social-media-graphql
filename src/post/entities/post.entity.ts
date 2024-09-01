@@ -1,6 +1,5 @@
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 import { Types } from 'mongoose';
-import { User } from 'src/user/user.entity';
 
 @ObjectType()
 export class Post {
@@ -10,8 +9,6 @@ export class Post {
   @Field(() => ID)
   userId: Types.ObjectId;
 
-  @Field(() => User)
-  user: User;
 
   @Field()
   content: string;

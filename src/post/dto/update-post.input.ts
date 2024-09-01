@@ -1,8 +1,19 @@
-import { CreatePostInput } from './create-post.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, ID} from '@nestjs/graphql';
+import { IsArray, IsMongoId, IsNotEmpty, IsString} from 'class-validator';
+import { Types } from 'mongoose';
 
 @InputType()
-export class UpdatePostInput extends PartialType(CreatePostInput) {
-  @Field(() => Int)
-  id: number;
+export class UpdatePostInput {
+  @Field(() => ID)
+  @IsNotEmpty()
+  @IsMongoId()
+  postId: Types.ObjectId;
+
+  @Field({ nullable: true })
+  @IsString()
+  content?: string;
+
+  @Field(() => [String], { nullable: true })
+  @IsArray()
+  media?: string[];
 }

@@ -35,7 +35,6 @@ type RegisterResponse {
 type Post {
   _id: ID!
   userId: ID!
-  user: User!
   content: String!
   media: [String!]
   likeCount: Float!
@@ -47,7 +46,8 @@ type Post {
 type Query {
   getUserprofile(userId: String!): User!
   getFriends(userId: String!): [User!]!
-  post(id: Int!): Post!
+  posts: [Post!]!
+  post(id: ID!): Post!
 }
 
 type Mutation {
@@ -61,7 +61,7 @@ type Mutation {
   register(registerUserInput: RegisterUserInput!): RegisterResponse!
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
-  removePost(id: Int!): Post!
+  removePost(id: ID!): String!
 }
 
 input UpdateBioInput {
@@ -99,12 +99,13 @@ input RegisterUserInput {
 }
 
 input CreatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  userId: ID!
+  content: String!
+  media: [String!]
 }
 
 input UpdatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  postId: ID!
+  content: String
+  media: [String!]
 }
