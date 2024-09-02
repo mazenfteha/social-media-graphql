@@ -6,14 +6,17 @@ import { Model, Types } from 'mongoose';
 import { CommentModule } from './comment.module';
 import { PostService } from 'src/post/post.service';
 import { UserService } from 'src/user/user.service';
-import { Comment } from './entities/comment.entity';
 import { CommentDocument } from './comment.schema';
+import { PostDocument } from 'src/post/post.schema';
+import { Post } from 'src/post/entities/post.entity';
+import { Comment } from './entities/comment.entity';
 
 
 @Injectable()
 export class CommentService {
   constructor(
     @InjectModel(CommentDocument.name) private readonly commentModel: Model<CommentModule>,
+    @InjectModel(PostDocument.name) private readonly postModel: Model<Post>,
     private readonly postService: PostService,
     private readonly userService: UserService,
   ) {}
@@ -25,18 +28,24 @@ export class CommentService {
       throw new NotFoundException('User not found');
     }
 
-    const post = await this.postService.findOne(postId);
+    const post = await this.postModel.findById(postId);
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException(`Post with ID "${postId}" not found`);
     }
-    const comment = new this.commentModel({
+    const newComment = new this.commentModel({
       postId,
       userId,
       content,
       createdAt: new Date(),
       updatedAt: new Date(),
     })
-    return comment.save()  as unknown as Comment
+    const savedComment = await newComment.save();
+
+    // Increment the comment count on the post
+    post.commentCount += 1;
+    await post.save();
+
+    return savedComment as unknown as Comment ;
   }
 
   findAll() {
@@ -65,10 +74,15 @@ export class CommentService {
   }
 
   async remove(id: Types.ObjectId) : Promise<string> {
-    const post = await this.commentModel.findById(id);
+    const comment = await this.commentModel.findById(id);
 
-    if (!post) {
+    if (!comment) {
       throw new NotFoundException('Comment not found');
+    }
+    const post = await this.postModel.findById(comment); // comment.postId
+    if (post) {
+      post.commentCount -= 1;
+      await post.save();
     }
 
     await this.commentModel.findByIdAndDelete(id);

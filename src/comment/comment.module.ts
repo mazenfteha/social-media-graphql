@@ -5,10 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CommentDocument, CommentSchema } from './comment.schema';
 import { UserModule } from 'src/user/user.module';
 import { PostModule } from 'src/post/post.module';
+import { PostDocument, PostSchema } from 'src/post/post.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: CommentDocument.name, schema: CommentSchema }]),
+    MongooseModule.forFeature([{ name: CommentDocument.name, schema: CommentSchema }, {name: PostDocument.name, schema: PostSchema}]),
     UserModule,
     PostModule
   ],
