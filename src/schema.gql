@@ -43,11 +43,22 @@ type Post {
   updatedAt: DateTime!
 }
 
+type Comment {
+  _id: ID!
+  postId: ID!
+  userId: ID!
+  content: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
   getUserprofile(userId: String!): User!
   getFriends(userId: String!): [User!]!
   posts: [Post!]!
   post(id: ID!): Post!
+  comments: [Comment!]!
+  comment(id: ID!): Comment!
 }
 
 type Mutation {
@@ -62,6 +73,9 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: ID!): String!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  removeComment(id: ID!): Comment!
 }
 
 input UpdateBioInput {
@@ -108,4 +122,15 @@ input UpdatePostInput {
   postId: ID!
   content: String
   media: [String!]
+}
+
+input CreateCommentInput {
+  postId: ID!
+  userId: ID!
+  content: String!
+}
+
+input UpdateCommentInput {
+  id: ID!
+  content: String
 }

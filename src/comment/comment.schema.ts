@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 @Schema()
-export class Comment extends Document {
+export class CommentDocument extends Document {
     _id: Types.ObjectId;
     
     @Prop({ type: Types.ObjectId, ref: 'Post', required: true })
@@ -21,4 +21,4 @@ export class Comment extends Document {
     updatedAt: Date;
 }
 
-export const CommentSchema = SchemaFactory.createForClass(Comment);
+export const CommentSchema = SchemaFactory.createForClass(CommentDocument);

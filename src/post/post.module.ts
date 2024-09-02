@@ -10,6 +10,7 @@ import { UserModule } from 'src/user/user.module';
     MongooseModule.forFeature([{ name: PostDocument.name, schema: PostSchema }]),
     UserModule
   ],
-  providers: [PostResolver, PostService]
+  providers: [PostResolver, PostService],
+  exports : [PostService]
 })
 export class PostModule {}
