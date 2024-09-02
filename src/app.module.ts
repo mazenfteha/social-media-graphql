@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { graphqlUploadExpress } from 'graphql-upload';
 import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 
 
 @Module({
@@ -28,6 +29,7 @@ import { PostModule } from './post/post.module';
     UserModule,
     AuthModule,
     PostModule,
+    CommentModule,
   ],
   providers: [UserModule],
 })
