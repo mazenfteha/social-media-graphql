@@ -4,7 +4,10 @@ import { Share } from './entities/share.entity';
 import { CreateShareInput } from './dto/create-share.input';
 import { UpdateShareInput } from './dto/update-share.input';
 import { Types } from 'mongoose';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => Share)
 export class ShareResolver {
   constructor(private readonly shareService: ShareService) {}

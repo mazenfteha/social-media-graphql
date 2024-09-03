@@ -76,6 +76,9 @@ type Query {
   comments: [Comment!]!
   comment(id: ID!): Comment!
   share(userId: ID!): [Share!]!
+  searchUsers(keyword: String!): [User!]!
+  searchPosts(keyword: String!): [Post!]!
+  searchComments(keyword: String!): [Share!]!
 }
 
 type Mutation {

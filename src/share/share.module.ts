@@ -13,5 +13,6 @@ import { PostDocument, PostSchema } from 'src/post/post.schema';
     ]),
   ],
   providers: [ShareResolver, ShareService],
+  exports:[ShareService]
 })
 export class ShareModule {}

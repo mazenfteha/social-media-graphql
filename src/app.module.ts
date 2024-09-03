@@ -11,6 +11,7 @@ import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
 import { LikeModule } from './like/like.module';
 import { ShareModule } from './share/share.module';
+import { SearchModule } from './search/search.module';
 
 
 @Module({
@@ -34,6 +35,7 @@ import { ShareModule } from './share/share.module';
     CommentModule,
     LikeModule,
     ShareModule,
+    SearchModule,
   ],
   providers: [UserModule],
 })

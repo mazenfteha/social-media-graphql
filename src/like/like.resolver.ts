@@ -3,6 +3,10 @@ import { LikeService } from './like.service';
 import { Like } from './entities/like.entity';
 import { CreateLikeInput } from './dto/create-like.input';
 import { Types } from 'mongoose';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
+@UseGuards(JwtAuthGuard)
 @Resolver(() => Like)
 export class LikeResolver {
   constructor(private readonly likeService: LikeService) {}
