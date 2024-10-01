@@ -1,4 +1,3 @@
-import { UserDocument } from './../user/user.schema';
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.entity';
@@ -14,16 +13,14 @@ export class AuthService {
         private jwtService : JwtService,
     ) {}
 
-    async validateUser(email: string, password: string): Promise<UserDocument | null> {
+    async validateUser(email: string, password: string) : Promise<any>{
         const user = await this.userService.findByEmail(email);
         console.log(`Email from validate user${email}`);
-
     
-        if (user && user.password === password) {
-            delete user.password;
-            return user;
+        if (user && await bcrypt.compare(password, user.password)) {
+            const {...result } = user;
+            return result;
         }
-    
         throw new UnauthorizedException('Invalid credentials');
     }
 

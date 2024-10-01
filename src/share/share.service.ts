@@ -24,8 +24,13 @@ export class ShareService {
     return newShare.save() as unknown as Share ;
   }
 
-  findAll(userId: Types.ObjectId) {
-    return this.shareModel.find({userId: userId}).populate('post').populate('user').exec()
+  findAll(userId: Types.ObjectId, page: number, limit: number)  {
+    const skip = (page - 1) * limit;
+    return this.shareModel.find({userId: userId})
+    .skip(skip)
+    .limit(limit)
+    .exec(),
+    this.shareModel.countDocuments({userId: userId})
   }
 
 

@@ -25,7 +25,6 @@ scalar DateTime
 
 type LoginResponse {
   access_token: String!
-  user: User!
 }
 
 type RegisterResponse {
@@ -64,8 +63,7 @@ type Share {
   userId: ID!
   postId: ID!
   caption: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  sharedAt: DateTime!
 }
 
 type Query {
@@ -75,10 +73,10 @@ type Query {
   post(id: ID!): Post!
   comments: [Comment!]!
   comment(id: ID!): Comment!
-  share(userId: ID!): [Share!]!
+  share(userId: ID!, page: Int! = 1, limit: Int! = 10): [Share!]!
   searchUsers(keyword: String!): [User!]!
   searchPosts(keyword: String!): [Post!]!
-  searchComments(keyword: String!): [Share!]!
+  searchCaptions(keyword: String!): [Share!]!
 }
 
 type Mutation {

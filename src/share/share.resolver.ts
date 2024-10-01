@@ -18,8 +18,12 @@ export class ShareResolver {
   }
 
   @Query(() => [Share], { name: 'share' })
-  findAll(@Args('userId', { type: () => ID }) userId: Types.ObjectId) {
-    return this.shareService.findAll(userId);
+  findAll(
+    @Args('userId', { type: () => ID }) userId: Types.ObjectId,
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('limit', { type: () => Int, defaultValue: 10 }) limit: number
+  ) {
+    return this.shareService.findAll(userId, page, limit);
   }
 
   @Mutation(() => Share)

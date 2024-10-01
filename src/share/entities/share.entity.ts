@@ -16,8 +16,5 @@ export class Share {
   caption?: string;
 
   @Field(() => Date)
-  createdAt: Date;
-
-  @Field(() => Date)
-  updatedAt: Date;
+  sharedAt: Date;
 }
