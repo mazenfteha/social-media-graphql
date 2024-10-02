@@ -12,6 +12,7 @@ import { CommentModule } from './comment/comment.module';
 import { LikeModule } from './like/like.module';
 import { ShareModule } from './share/share.module';
 import { SearchModule } from './search/search.module';
+import { NotificationModule } from './notification/notification.module';
 
 
 @Module({
@@ -22,6 +23,7 @@ import { SearchModule } from './search/search.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      installSubscriptionHandlers: true,
     }),
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
@@ -36,6 +38,7 @@ import { SearchModule } from './search/search.module';
     LikeModule,
     ShareModule,
     SearchModule,
+    NotificationModule,
   ],
   providers: [UserModule],
 })

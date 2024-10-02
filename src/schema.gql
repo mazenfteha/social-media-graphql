@@ -23,6 +23,16 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Notification {
+  _id: ID!
+  recipient: ID!
+  sender: ID!
+  type: String!
+  message: String!
+  isRead: Boolean!
+  createdAt: DateTime!
+}
+
 type LoginResponse {
   access_token: String!
 }
@@ -91,6 +101,7 @@ type PaginatedShares {
 type Query {
   getUserprofile(userId: String!): User!
   getFriends(userId: String!): [User!]!
+  getNotifications(userId: ID!): [Notification!]!
   postsFeed(limit: Int, offset: Int): [Post!]!
   post(id: ID!): Post!
   comments: [Comment!]!
@@ -108,6 +119,7 @@ type Mutation {
   sendFriendRequest(sendFriendRequestInput: SendFriendRequestInput!): String!
   acceptFriendRequest(acceptFriendRequestInput: AcceptFriendRequestInput!): String!
   cancelFriendRequest(cancelFriendRequestInput: CancelFriendRequestInput!): String!
+  markNotificationAsRead(notificationId: ID!): Notification!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   register(registerUserInput: RegisterUserInput!): RegisterResponse!
   createPost(createPostInput: CreatePostInput!): Post!
@@ -196,4 +208,8 @@ input UpdateShareInput {
   postId: ID!
   userId: ID!
   caption: String
+}
+
+type Subscription {
+  notificationAdded(userId: ID!): Notification!
 }

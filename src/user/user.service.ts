@@ -10,10 +10,14 @@ import * as fs from 'fs';
 import { SendFriendRequestInput } from './dto/send-friend-request.input';
 import { AcceptFriendRequestInput } from './dto/accept-friend-request.input';
 import { CancelFriendRequestInput } from './dto/cancel-friend-request.inptu';
+import { NotificationService } from 'src/notification/notification.service';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(UserDocument.name) private userModel: Model<UserDocument>){}
+    constructor(
+        @InjectModel(UserDocument.name) private userModel: Model<UserDocument>,
+        private notificationService: NotificationService
+    ){}
 
 
     async findById(userId: Types.ObjectId) {
@@ -129,6 +133,14 @@ export class UserService {
 
         receiver.friendRequests.push(sender._id);
         await receiver.save();
+
+        // Trigger Notification
+        await this.notificationService.createNotification(
+            receiverId,
+            senderId,
+            'friend_request',
+            `You have a new friend request from user ${senderId}`
+        )
 
         return 'Friend request sent successfully';
         } catch (error) {
