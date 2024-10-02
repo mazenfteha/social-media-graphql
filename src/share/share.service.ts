@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShareInput } from './dto/create-share.input';
 import { UpdateShareInput } from './dto/update-share.input';
 import { Share } from './entities/share.entity';
@@ -15,6 +15,11 @@ export class ShareService {
   ){}
   async create(createShareInput: CreateShareInput) : Promise<Share> {
     const { userId, postId, caption } = createShareInput;
+    //check if share already exists
+    const existingShare = await this.shareModel.findOne({ userId, postId });
+    if (existingShare) {
+      throw new ConflictException('Share already exists');
+    }
     const post = await this.postModel.findById(postId);
     if (!post) {
       throw new NotFoundException(`Post with ID "${postId}" not found`);

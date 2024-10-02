@@ -66,6 +66,28 @@ type Share {
   sharedAt: DateTime!
 }
 
+type PaginationMeta {
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
+type PaginatedUsers {
+  data: [User!]!
+  meta: PaginationMeta!
+}
+
+type PaginatedPosts {
+  data: [Post!]!
+  meta: PaginationMeta!
+}
+
+type PaginatedShares {
+  data: [Share!]!
+  meta: PaginationMeta!
+}
+
 type Query {
   getUserprofile(userId: String!): User!
   getFriends(userId: String!): [User!]!
@@ -74,9 +96,9 @@ type Query {
   comments: [Comment!]!
   comment(id: ID!): Comment!
   share(userId: ID!, page: Int! = 1, limit: Int! = 10): [Share!]!
-  searchUsers(keyword: String!): [User!]!
-  searchPosts(keyword: String!): [Post!]!
-  searchCaptions(keyword: String!): [Share!]!
+  searchUsers(keyword: String!, page: Int! = 1, limit: Int! = 10): PaginatedUsers!
+  searchPosts(keyword: String!, page: Int! = 1, limit: Int! = 10): PaginatedPosts!
+  searchCaptions(keyword: String!, page: Int! = 1, limit: Int! = 10): PaginatedShares!
 }
 
 type Mutation {
