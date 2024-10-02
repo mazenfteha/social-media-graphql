@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
@@ -17,9 +17,12 @@ export class PostResolver {
     return this.postService.create(createPostInput);
   }
 
-  @Query(() => [Post], { name: 'posts' })
-  findAll() {
-    return this.postService.findAll();
+  @Query(() => [Post], { name: 'postsFeed' })
+    getPostsFeed(
+      @Args('limit', { type: () => Int, nullable: true }) limit?: number,
+      @Args('offset', { type: () => Int, nullable: true }) offset?: number,
+  ) {
+    return this.postService.getFeed(limit, offset);
   }
 
   @Query(() => Post, { name: 'post' })

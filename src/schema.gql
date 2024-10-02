@@ -91,7 +91,7 @@ type PaginatedShares {
 type Query {
   getUserprofile(userId: String!): User!
   getFriends(userId: String!): [User!]!
-  posts: [Post!]!
+  postsFeed(limit: Int, offset: Int): [Post!]!
   post(id: ID!): Post!
   comments: [Comment!]!
   comment(id: ID!): Comment!

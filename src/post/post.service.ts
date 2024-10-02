@@ -33,8 +33,12 @@ export class PostService {
     return post.save();
   }
 
-  async findAll() : Promise<Post[]> { 
-    return this.postModel.find().exec();
+  async getFeed(limit: number = 10, offset: number = 0) : Promise<Post[]> { 
+    return this.postModel.find()
+    .sort({ createdAt: -1 })
+    .skip(offset)
+    .limit(limit)
+    .exec();
   }
 
   async findOne(id: Types.ObjectId) : Promise < Post | null> {
