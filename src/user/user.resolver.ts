@@ -3,7 +3,6 @@ import { UserService } from './user.service';
 import { User } from './user.entity';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { UpdateBioInput } from './dto/update-bio.input';
 import { SendFriendRequestInput } from './dto/send-friend-request.input';
 import { AcceptFriendRequestInput } from './dto/accept-friend-request.input';
@@ -26,14 +25,7 @@ export class UserResolver {
         const { userId, bio } = updateBioInput;
         return this.userService.updateBio(userId, bio);
     }
-
-    @Mutation(() => String)
-    async uploadProfileImage(
-        @Args('userId') userId: string,
-        @Args({ name: 'file', type: () => GraphQLUpload }) file: FileUpload,
-    ): Promise<string> {
-        return this.userService.uploadProfileImage(userId, file);
-    }
+    
 
     @Mutation(() => String)
     async deleteProfileImage(@Args('userId') userId: string): Promise<string> {

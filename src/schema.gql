@@ -114,7 +114,6 @@ type Query {
 
 type Mutation {
   addOrUpdateBio(updateBioInput: UpdateBioInput!): User!
-  uploadProfileImage(userId: String!, file: Upload!): String!
   deleteProfileImage(userId: String!): String!
   sendFriendRequest(sendFriendRequestInput: SendFriendRequestInput!): String!
   acceptFriendRequest(acceptFriendRequestInput: AcceptFriendRequestInput!): String!
@@ -139,9 +138,6 @@ input UpdateBioInput {
   userId: ID!
   bio: String!
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
 
 input SendFriendRequestInput {
   senderId: ID!

@@ -4,7 +4,6 @@ import { UserDocument } from './user.schema';
 import { Model, Types } from 'mongoose';
 import { User } from './user.entity';
 import { RegisterUserInput } from 'src/auth/dto/register-user.input';
-import { FileUpload } from 'graphql-upload';
 import { join } from 'path';
 import * as fs from 'fs'; 
 import { SendFriendRequestInput } from './dto/send-friend-request.input';
@@ -32,21 +31,7 @@ export class UserService {
         const createdUser = new this.userModel(createUserDto);
         return createdUser.save();
     }
-
-    async uploadProfileImage(userId: string, file: FileUpload): Promise<string> {
-        const { createReadStream, filename } = file;
-        const uploadPath = join(__dirname, '..', '..', 'uploads', filename);
     
-        const stream = createReadStream();
-        const out = fs.createWriteStream(uploadPath);
-        stream.pipe(out);
-    
-        const imageUrl = `uploads/${filename}`;
-    
-        await this.updateUserProfileImage(userId, imageUrl);
-    
-        return imageUrl;
-    }
 
     async updateUserProfileImage(userId: string, imageUrl: string): Promise<UserDocument> {
         return this.userModel.findByIdAndUpdate(

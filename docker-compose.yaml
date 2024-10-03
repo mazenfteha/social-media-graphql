@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    container_name: nest-app
+    ports:
+      - '3000:3000'
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/Social-Media
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
