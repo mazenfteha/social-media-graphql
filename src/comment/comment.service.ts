@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
 import { InjectModel } from '@nestjs/mongoose';
@@ -61,16 +61,24 @@ export class CommentService {
   }
 
   async update(updateCommentInput: UpdateCommentInput) : Promise<Comment> {
-    const { id, content } = updateCommentInput;
+    try {
+      const { id, content } = updateCommentInput;
     const comment = await this.commentModel.findById(id)
 
     if (!comment) {
       throw new NotFoundException(`Comment with ID "${id}" not found`);
     }
 
-    //comment.content = content;
+    const updatedComment = await this.commentModel.findByIdAndUpdate(
+      id,
+      { content : content, updatedAt: new Date() },
+      { new: true, runValidators: true }
+    );
 
-    return (await comment.save()).toObject();
+      return updatedComment as unknown as Comment;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to update comment', error);
+    }
   }
 
   async remove(id: Types.ObjectId) : Promise<string> {

@@ -12,7 +12,7 @@ export class Comment {
     @Field(() => ID)
     userId: Types.ObjectId;
 
-    @Field()
+    @Field({ nullable: true })
     content: string;
 
     @Field(() => Date)

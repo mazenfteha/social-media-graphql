@@ -56,7 +56,7 @@ type Comment {
   _id: ID!
   postId: ID!
   userId: ID!
-  content: String!
+  content: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
