@@ -46,11 +46,12 @@ This is a social media API built with Nest.js, MongoDB, GraphQL, and Docker. It 
 
 - Auth Service :
 
-- User Service :
-- Post Service :
-- Comment Service :
-- Share Service :
-- Like Service :
+- User Service 
+- Post Service 
+- Comment Service
+- Like Service 
+- Share Service 
+- Search Service 
 - Notification Service :
 
 ## GraphQL Resolvers
